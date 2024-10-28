@@ -66,4 +66,35 @@ Master-Master репликация
 
 # Задание 2
 
+Конфиг мастера:
+
+![1masterconfig](https://github.com/timakhova/hw_ReplicationP1/blob/main/2-1masterconfig.png)
+
+Создаём пользователя для репликации и необходимые привилегии:
+
+CREATE USER 'replica_user'@'%' IDENTIFIED BY 'strong_password';
+GRANT REPLICATION SLAVE ON *.* TO 'replica_user'@'%';
+FLUSH PRIVILEGES;
+
+Мастер статус после команды FLUSH TABLES WITH READ LOCK; SHOW MASTER STATUS;
+
+![20STATUS](https://github.com/timakhova/hw_ReplicationP1/blob/main/2-SHOW%20MASTER%20STATUS.png)
+
+Конфиг слейва:
+
+![slaveconfig](https://github.com/timakhova/hw_ReplicationP1/blob/main/2-slaveconfig.png)
+
+Подключаем командами:
+
+CHANGE MASTER TO
+MASTER_HOST='84.252.132.235',
+MASTER_USER='replica_user',
+MASTER_PASSWORD='strong_password',
+MASTER_LOG_FILE='mysql-bin.000001',
+MASTER_LOG_POS=872;
+
+Слейв статус:
+
+![slaveworks2](https://github.com/timakhova/hw_ReplicationP1/blob/main/2-slaveworks2.png)
+
 
